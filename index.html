@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+
+        <style>
+            .grid-item {
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 10px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            #grid-container{
+                display: grid;
+                grid-template-columns: auto auto auto;
+                padding: 10px;
+                width: 50%;
+                float: right;
+            }
+
+            .header {
+                background-color: rgba(9.8, 100, 9.8, 0.6);
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 10px;
+                font-size: 18px;
+                text-align: center;
+            }
+        </style>
+
+    </head>
+
+<body>
+
+
+        <div id="grid-container">
+            <div class="grid-item, header">Matkasse</div>
+            <div class="grid-item, header">Pris 1-2 personer</div>
+            <div class="grid-item, header">Pris 3-4 personer</div>
+
+                <div class="grid-item">Vegansk</div>
+                <div class="grid-item">679</div>
+                <div class="grid-item">979</div>
+
+                <div class="grid-item">Vegetariansk</div>
+                <div class="grid-item">679</div>
+                <div class="grid-item">979</div>
+
+                <div class="grid-item">Sjømat</div>
+                <div class="grid-item">879</div>
+                <div class="grid-item">1179</div>
+
+                <div class="grid-item">Kjøtt og fisk</div>
+                <div class="grid-item">879</div>
+                <div class="grid-item">1179</div>
+
+                <div class="grid-item">Familiekasse (barnevennlig)</div>
+                <div class="grid-item">779</div>
+                <div class="grid-item">1079</div>
+            </div>
+
+        <div style="padding: 4% 0 0 2%">
+            <label for="matkasse" style="padding-top: 100px;">Velg en matkasse:</label>
+
+            <select name="cars" id="matkasse">
+                <option hidden></option>
+                <!--  For loop som lager elementene på linje 62  -->
+                <!--    <option>Vegansk 1-2 pers. 300kr</option> -->
+                <!--    <option>Vegansk 3-4 pers. 599kr</option> -->
+                <!--    <option>Vegetariansk 1-2 pers. </option> -->
+                <!--    <option>Vegetariansk 3-4 pers. </option> -->
+                <!--    <option>Sjømat 1-2 pers. </option> -->
+                <!--    <option>Sjømat 3-4 pers. </option> -->
+                <!--    <option>Kjøtt og fisk 1-2 pers. </option> -->
+                <!--    <option>Kjøtt og fisk 3-4 pers. </option> -->
+                <!--    <option>Familiekasse (barnevennlig) 1-2 pers. </option> -->
+                <!--    <option>Familiekasse (barnevennlig) 3-4 pers. </option> -->
+                <input type="button" onclick="bestilling()" value="Legg til handlekurv">
+
+            </select>
+        </div>
+
+        <div id="penger">Ditt totale beløp er på: 0kr</div>
+
+        <div id="alleBestillinger"></div>
+
+    <div>
+<!-- Her skal jeg lage skjemaet. -->
+
+        <label for="navn"> Navn </label>
+         <br>
+        <input type="text" id="navn">
+    <br>
+        <label for="etterNavn"> Etternavn </label>
+            <br>
+        <input type="text" id="etterNavn">
+    <br>
+        <label for="adresse"> Gatenavn og gatenummer </label>
+            <br>
+        <input type="text" id="adresse">
+    <br>
+        <label for="postnummer"> Postnummer </label>
+            <br>
+        <input type="text" id="postnummer">
+    <br>
+        <label for="sted"> Sted </label>
+            <br>
+        <input type="text" id="sted">
+    <br>
+        <label for="tlf"> Tlf. nummer </label>
+            <br>
+        <input type="text" id="tlf">
+        <button onclick="lagreInput()">Send inn</button>
+    </div>
+
+</body>
+</html>
+
+<script>
+    const kasser = [
+            {kasse: "Vegansk 1-2 pers.", verdi: 679},
+            {kasse: "Vegansk 3-4 pers.", verdi: 979},
+            {kasse: "Vegetariansk 1-2 pers.", verdi: 679},
+            {kasse: "Vegetariansk 3-4 pers.", verdi: 979},
+            {kasse: "Sjømat 1-2 pers.", verdi: 879},
+            {kasse: "Sjømat 3-4 pers.", verdi: 1179},
+            {kasse: "Kjøtt og fisk 1-2 pers.", verdi: 879},
+            {kasse: "Kjøtt og fisk 3-4 pers.", verdi: 1179},
+            {kasse: "Familiekasse (barnevennlig) 1-2 pers.", verdi: 779},
+            {kasse: "Familiekasse (barnevennlig) 3-4 pers.", verdi: 1079},
+    ]
+
+    let totalPris = []
+
+    // Lager matkasse valgene og setter dem under drop down listen <select>-elementet
+    for (let pos = 0; pos < kasser.length; pos++) {
+        let valg = document.createElement("option")
+            valg.innerText = `${kasser[pos].kasse}`
+console.log(valg)
+            document.getElementById("matkasse").appendChild(valg)
+            valg.setAttribute("data-pris", `${kasser[pos].verdi}`)
+    }
+
+        // Henter brukerens bestillinger
+    function bestilling() {
+        let inputEl = document.getElementById("matkasse");
+            console.log(inputEl)
+            console.log(inputEl.options[inputEl.selectedIndex].getAttribute("data-pris"))
+        // henter verdien til matkassen
+        let pris = inputEl.options[inputEl.selectedIndex].getAttribute("data-pris")
+            // Pusher inn pris på valgt kasse inn i totalPris
+            totalPris.push(parseInt(pris))
+            console.log(totalPris)
+        // Lager p-element og viser brukerens bestillinger
+        let parsnip = document.createElement("p");
+                parsnip.innerText = inputEl.value;
+                console.log(parsnip);
+                document.getElementById("alleBestillinger").appendChild(parsnip);
+
+            // Setter sammen summene i totalPris og appendChild
+            const ba = (element1, element2) => element1 + element2;
+                console.log(totalPris.reduce(ba));
+            let kostnad = document.getElementById("penger");
+                kostnad.innerText = "Ditt totale beløp er på: " + totalPris.reduce(ba) + "kr";
+                console.log(kostnad)
+        }
+
+    function lagreInput () {
+        localStorage.setItem("first-name", document.getElementById("navn").value)
+        localStorage.setItem("surname", document.getElementById("etterNavn").value)
+        localStorage.setItem("gate", document.getElementById("adresse").value)
+        localStorage.setItem("zip-code", document.getElementById("postnummer").value)
+        localStorage.setItem("spot", document.getElementById("sted").value)
+        localStorage.setItem("phone-number", document.getElementById("tlf").value)
+
+        console.log(document.getElementById("navn").value)
+        console.log(localStorage.getItem("first-name"))
+
+        // let brukerensNavn = document.getElementById("navn")
+        // brukerensNavn.value = localStorage.getItem("name")
+
+    }
+
+        document.getElementById("navn").value = localStorage.getItem("first-name")
+        document.getElementById("etterNavn").value = localStorage.getItem("surname");
+        document.getElementById("adresse").value = localStorage.getItem("gate");
+        document.getElementById("postnummer").value = localStorage.getItem("zip-code");
+        document.getElementById("sted").value = localStorage.getItem("spot");
+        document.getElementById("tlf").value = localStorage.getItem("phone-number");
+</script>
